@@ -1,16 +1,20 @@
 
-# Workshop: Automated Text Analysis with R
+# Workshop: Twitter Text Analytics for R
 
 ## Sponsored by 
-* [Quantitative Methods Working Group, European University Institute](https://sites.google.com/site/qmwgroup/)
+* [Project Mosaic](https://projectmosaic.uncc.edu/)
 
-## May 19, 2016
+## July 27, 2016
  
 ## Instructor
 
-* [Pablo Barber&aacute;](http://pablobarbera.com/)
+* Ryan Wesslen
 
-(with some content based on materials prepared by [Dan Cervone](http://dcervone.com/), [Alex Hanna](http://alex-hanna.com), [Ken Benoit](http://www.kenbenoit.net/), [Paul Nulty](https://github.com/pnulty), [Kevin Munger](https://github.com/kmunger), and [Justin Grimmer](http://www.justingrimmer.org/).)
+Materials were originally built by [Pablo Barber&aacute;](http://pablobarbera.com/), sponsored by [Quantitative Methods Working Group, European University Institute](https://sites.google.com/site/qmwgroup/). Please see the forked original workshop materials. Thanks to Pablo for allowing us to his materials!
+
+Additional content (via Pablo Barber&aacute;) were based on materials prepared by [Dan Cervone](http://dcervone.com/), [Alex Hanna](http://alex-hanna.com), [Ken Benoit](http://www.kenbenoit.net/), [Paul Nulty](https://github.com/pnulty), [Kevin Munger](https://github.com/kmunger), and [Justin Grimmer](http://www.justingrimmer.org/).)
+
+All material below is duplicated, except the schedule that reflects the Project Mosaic workshop materials.
 
 ## Description
 
@@ -35,20 +39,20 @@ You have three options for downloading the course material found on this page:
 
 You can also subscribe to the repository if you have [a GitHub account](https://github.com), which will send you updates each time new changes are pushed to the repository.
 
-## Schedule
+## Schedule for July 27 Project Mosaic Workshop
 
 
 | Time         | Topic                                                     |
 | ------------ | ---------------------------------------                   |
-| 10:00-10:30  | [Introduction to text analysis](01-intro/01-intro.Rmd)              | 
+| 10:00-10:30  | Introduction to Twitter              | 
 | 10:30-11:00  | [Descriptive analysis, regular expressions](01-intro/02-descriptive.Rmd)              | 
 | 11:00-11:15  | [Dictionary methods](01-intro/03-dictionaries.Rmd)              | 
 | 11:15-12:00  | [Challenge I](01-intro/04-challenge1-solutions.Rmd)              | 
-| 12:00-14:00  | Lunch Break |
-| 14:00-15:00  | [Supervised methods](02-supervised/01-supervised.Rmd)                  | 
-| 15:00-15:30  | [Challenge II](02-supervised/02-challenge2-solutions.Rmd)    |
-| 15:30-16:00  | Coffee Break |
-| 16:00-17:00  | [Unsupervised methods](03-unsupervised/01-topic-models.Rmd)                  | 
-| 17:00-17:45  | [Challenge III](03-unsupervised/02-challenge3-solutions.Rmd)    |
-| 17:45-18:00  | Wrap-up    |
+| 12:00- 1:00  | Lunch Break |
+|  1:00- 2:00  | [Supervised methods](02-supervised/01-supervised.Rmd)                  | 
+|  2:00- 2:30  | [Challenge II](02-supervised/02-challenge2-solutions.Rmd)    |
+|  2:30- 3:00  | Coffee Break |
+|  3:00- 3:30  | [Unsupervised methods](03-unsupervised/01-topic-models.Rmd)                  | 
+|  3:30- 4:00  | [Challenge III](03-unsupervised/02-challenge3-solutions.Rmd)    |
+|  4:00- 5:00  | Data (e.g. Public API) and Research Ideas    |
 
