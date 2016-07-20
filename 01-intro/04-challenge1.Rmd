@@ -1,48 +1,80 @@
 ---
 title: "Challenge 1"
-author: Pablo Barbera
-date: May 19, 2016
+author: Ryan Wesslen (modified)
+date: July 27, 2016
 output: html_document
 ---
 
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
+                      echo=TRUE, warning=FALSE, message=FALSE)
+```
+
 #### Descriptive analyses of text
 
-Write code in R that help you answer the following questions. We'll be working with a dataset that contains all the tweets sent by Donald Trump, Ted Cruz, Hillary Clinton, and Bernie Sanders during the 2016 primary election campaign.
+Our goal is to learn how to filter a dataset. The goal: find Carolina Panther Tweets.
 
-1. Read the data. The name of the candidate is in the `screen_name` variable.  How many tweets has each of the candidate sent?
+1. Run the `functions.R` file with pre-created functions. Read in the data. 
+
+ * First plot the dataset using the `timePlot` function. Add the parameter "smooth = TRUE" to add a smoothing parameter. 
+
+ * What is causing the spikes?
 
 ```{r}
-tweets <- read.csv('../datasets/candidate-tweets.csv', stringsAsFactors=F)
-
+# remember to set your working directory setwd()
+raw.tweets <- read.csv("CharlotteTweets20Sample.csv", stringsAsFactors = F)
+source("functions.R")
+timePlot(raw.tweets, smooth = TRUE)
 ```
 
-2. How many tweets contain a hashtag? What are the most popular hashtags by candidate? Who are the most mentioned handles by candidate?
-```{r}
+2. Save the most common hashtags (function `getCommonHashtags`); make sure to use the Tweet text (body) as the input. What are the top 10 hashtags?
 
+ * Repeat the same exercise with the handle function (`getCommonHandles`). 
 
-```
-
-3. Pick two candidates and create a corpus object for each of them. Find the most common collocations for each. Compute their average readability scores.
-```{r}
-
-```
-
-
-4. Now create a dfm object for each candidate and look at the most frequent features for each of them. Then compute the lexical diversity.
-```{r}
-
-
-```
-
-5. Compute the average sentiment score of the tweets sent by each candidate. Which candidate sent the most positive tweets? Is that what you expected? Find the most negative and most positive tweets for each candidate.
+ * Modify for the top 25 handles and hashtags.
 
 ```{r}
 
 ```
 
-BONUS. Create a comparison plot using a single corpus object where the name of the candidates is a document variable. Check `?plot.dfm` for clues.
+3. Choose hashtags and handles that you think will best identify Carolina Panther Tweets. 
+
+  * put the hashtags and handles into a character vector: names <- c("keyword1","keyword2")
+
+  * use `paste(names, collapse = "|")` to create a string of the keywords (with | as an OR). In a `grepl` function on the lower case of the Tweet's text, create a new column of what rows meet your criteria.
+
+  * Use your new column vector as a row filter on the original datset. Run your new panthers dataset through `timePlot`.
+  
+Determine how many Panther Tweets you can identify for this period. 
 
 ```{r}
 
 ```
 
+4. Create a dfm with the body variable on the entire dataset (raw.tweets) using the `quanteda` package. Add in the covariate panthers dummy variable (hint: use the `docvars` function after you create your corpus). 
+
+ * Run basic pre-processing, run the top 10 word counts (`topfeatures` function) and create a word cloud.
+
+ * Rerun the word cloud but tfidf weighting. What's the difference?
+
+```{r}
+
+```
+
+5. Rerun the dfm but this time add in the geo.type as a group. Run a comparison word cloud (`comparison = TRUE`). This may take a few minutes.
+
+ * What are the differences in content between points and polygon Tweets? Replot the time series, this time creating one plot for each geo.type ()
+
+```{r}
+
+```
+
+BONUS. Additional pre-processing steps can sometimes improve results. Run additional pre-processing steps including: stemming, Twitter mode, bigrams or trigrams. Use ?dfm help to get a list of the parameters. 
+
+* Rerun your word clouds. What difference did these pre-processing steps make?
+
+* Did you find new words to describe Carolina Panther Tweets?
+
+```{r}
+
+```
