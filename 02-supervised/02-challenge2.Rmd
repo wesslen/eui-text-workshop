@@ -1,18 +1,17 @@
 ---
 title: "Challenge 2"
-author: Pablo Barbera
-date: May 19, 2016
+author: Ryan Wesslen
+date: July 27, 2016
 output: html_document
 ---
 
 #### Supervised machine learning
 
-Write code in R that help you answer the following questions. As in the previous challenge, we'll be working with a dataset that contains all the tweets sent by Donald Trump, Ted Cruz, Hillary Clinton, and Bernie Sanders during the 2016 primary election campaign.
+Use the same dataset from Challenge 1. In this exercise, we're going to use supervised machine learning to determine the different words used by point Tweets versus polygon Tweet. Our goal is to better understand how Tweet content differs based on geo-location type.
 
-1. After reading a candidate, pick a candidate and create a dummy that indicates whether each tweet was sent by that candidate. We'll be trying to see if we can build a classifier to predict whether a tweet is coming from a given candidate.
+1. Reload the dataset and `functions.R`. Change the geo.code column to a factor (`factor` function). We will build a machine learning classifier to determine the words that most characterize each geo-location type.
 
 ```{r}
-tweets <- read.csv('../datasets/candidate-tweets.csv', stringsAsFactors=F)
 
 ```
 
@@ -34,12 +33,12 @@ tweets <- read.csv('../datasets/candidate-tweets.csv', stringsAsFactors=F)
 
 ```
 
-5. Identify the features that better predict that tweets were sent by this candidate. What do you learn?
+5. Identify the features that better predict that tweets the geo-location. What do you learn?
 ```{r}
 
 ```
 
-BONUS. Train wordscores in the Congress dataset we just used and then try to see how well it predicts the ideology of the presidential candidates
+BONUS. 
 
 ```{r}
 
