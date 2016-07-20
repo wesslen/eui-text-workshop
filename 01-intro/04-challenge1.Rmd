@@ -12,26 +12,25 @@ knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
 
 #### Descriptive analyses of text
 
-Our goal is to learn how to filter a dataset. The goal: find Carolina Panther Tweets.
+Our goal is to learn how to find specific Tweets. The goal: find Carolina Panther Tweets.
 
-1. Run the `functions.R` file with pre-created functions. Read in the data. 
+The dataset is a 20% sample of all Charlotte geo-located Tweets in a three month period (Dec 1 2015 to Feb 29 2016).  
 
- * First plot the dataset using the `timePlot` function. Add the parameter "smooth = TRUE" to add a smoothing parameter. 
+1. Read in the data. Run the `functions.R` file with pre-created functions. 
+
+ * First, plot the dataset using the `timePlot` function. Add the parameter "smooth = TRUE" to add a smoothing parameter. 
 
  * What is causing the spikes?
 
 ```{r}
-# remember to set your working directory setwd()
-raw.tweets <- read.csv("CharlotteTweets20Sample.csv", stringsAsFactors = F)
-source("functions.R")
-timePlot(raw.tweets, smooth = TRUE)
+
 ```
 
 2. Save the most common hashtags (function `getCommonHashtags`); make sure to use the Tweet text (body) as the input. What are the top 10 hashtags?
 
  * Repeat the same exercise with the handle function (`getCommonHandles`). 
 
- * Modify for the top 25 handles and hashtags.
+ * Modify to the top 25 handles and hashtags.
 
 ```{r}
 
@@ -45,7 +44,7 @@ timePlot(raw.tweets, smooth = TRUE)
 
   * Use your new column vector as a row filter on the original datset. Run your new panthers dataset through `timePlot`.
   
-Determine how many Panther Tweets you can identify for this period. 
+Determine how many Panther Tweets you can identify for this period. Are these all Panther Tweets?
 
 ```{r}
 
