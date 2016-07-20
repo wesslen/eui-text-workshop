@@ -14,7 +14,7 @@ Original materials are by [Pablo Barber&aacute;](http://pablobarbera.com/), spon
 
 Additional content (via Pablo Barber&aacute;) were based on materials prepared by [Dan Cervone](http://dcervone.com/), [Alex Hanna](http://alex-hanna.com), [Ken Benoit](http://www.kenbenoit.net/), [Paul Nulty](https://github.com/pnulty), [Kevin Munger](https://github.com/kmunger), and [Justin Grimmer](http://www.justingrimmer.org/).)
 
-For Project Mosaic's workshop, I've created new challenges for each module, using Charlotte Tweets. 
+For Project Mosaic's workshop, I've created new challenges for each module using Charlotte Twitter datasets. 
 
 All of the material below is from the original workshop, except the schedule that reflects the Project Mosaic workshop materials.
 
