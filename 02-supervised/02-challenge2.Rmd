@@ -1,9 +1,14 @@
 ---
 title: "Challenge 2"
-author: Ryan Wesslen
+author: Ryan Wesslen (modified)
 date: July 27, 2016
 output: html_document
 ---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
+                      echo=TRUE, warning=FALSE, message=FALSE)
+```
 
 #### Supervised machine learning
 
@@ -21,7 +26,7 @@ Use the same dataset from Challenge 1. In this exercise, we're going to use supe
 
 ```
 
-3. Construct the DFM. You may want to experiment with different preprocessing techniques until you achieve better performance.
+3. Construct the DFM. You may want to experiment with different preprocessing techniques until you achieve better performance. Hint - use the `trim` to remove words that are used at least five times (`minDoc = 5`).
 
 ```{r}
 
@@ -38,10 +43,13 @@ Use the same dataset from Challenge 1. In this exercise, we're going to use supe
 
 ```
 
-BONUS. 
+BONUS. Use the function `heatmapPlot` to run a Google maps on the point Tweets. 
+
+ * Why are such a large concentration in uptown? 
+ 
+ * Compared to the roads, why do the points tend to occur on intersections?
 
 ```{r}
 
 ```
-
 
