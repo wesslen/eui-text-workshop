@@ -21,6 +21,7 @@ We're going to run topic modeling on Tweets - the exception is we're going to co
 ```
 
 2. Now, estimate the topic model using a number of topics that you think is reasonable.
+
 ```{r}
 
 ```
