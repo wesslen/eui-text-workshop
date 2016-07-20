@@ -10,11 +10,13 @@
 
 * Ryan Wesslen
 
-Materials are from [Pablo Barber&aacute;](http://pablobarbera.com/), sponsored by [Quantitative Methods Working Group, European University Institute](https://sites.google.com/site/qmwgroup/). Please see the forked original workshop materials. Thanks to Pablo for allowing us to use his materials!
+Original materials are by [Pablo Barber&aacute;](http://pablobarbera.com/), sponsored by [Quantitative Methods Working Group, European University Institute](https://sites.google.com/site/qmwgroup/). Please see the forked original workshop materials. Thanks to Pablo for allowing us to use his materials!
 
 Additional content (via Pablo Barber&aacute;) were based on materials prepared by [Dan Cervone](http://dcervone.com/), [Alex Hanna](http://alex-hanna.com), [Ken Benoit](http://www.kenbenoit.net/), [Paul Nulty](https://github.com/pnulty), [Kevin Munger](https://github.com/kmunger), and [Justin Grimmer](http://www.justingrimmer.org/).)
 
-All material below is duplicated, except the schedule that reflects the Project Mosaic workshop materials.
+For Project Mosaic's workshop, I've created new challenges for each module, using Charlotte Tweets. 
+
+All of the material below is from the original workshop, except the schedule that reflects the Project Mosaic workshop materials.
 
 ## Description
 
