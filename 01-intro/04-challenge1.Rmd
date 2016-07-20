@@ -12,7 +12,7 @@ knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
 
 #### Descriptive analyses of text
 
-Our goal is to learn how to find specific Tweets. The goal: find Carolina Panther Tweets.
+Our goal is to learn how to find and analyze specific Tweets: Carolina Panther Tweets.
 
 The dataset is a 20% sample of all Charlotte geo-located Tweets in a three month period (Dec 1 2015 to Feb 29 2016).  
 
