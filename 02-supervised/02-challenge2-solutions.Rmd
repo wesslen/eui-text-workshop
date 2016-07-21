@@ -14,7 +14,7 @@ knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
 
 Use the same dataset from Challenge 1. In this exercise, we're going to use supervised machine learning to determine the different words used by point Tweets versus polygon Tweet. Our goal is to better understand how Tweet content differs based on geo-location type.
 
-1. Reload the dataset and `functions.R`. Change the geo.code column to a factor (`factor` function). We will build a machine learning classifier to determine the words that most characterize each geo-location type.
+1. Reload the dataset and `functions.R`. Change the geo.code column to a dummy variable (`ifelse` function). We will build a machine learning classifier to determine the words that most characterize each geo-location type.
 
 ```{r}
 tweets <- read.csv("./datasets/panthertweets.csv", stringsAsFactors = F)
