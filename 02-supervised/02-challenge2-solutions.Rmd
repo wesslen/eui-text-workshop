@@ -17,8 +17,8 @@ Use the same dataset from Challenge 1. In this exercise, we're going to use supe
 1. Reload the dataset and `functions.R`. Change the geo.code column to a dummy variable (`ifelse` function). We will build a machine learning classifier to determine the words that most characterize each geo-location type.
 
 ```{r}
-tweets <- read.csv("./datasets/panthertweets.csv", stringsAsFactors = F)
-source("functions.R")
+tweets <- read.csv("../datasets/panthertweets.csv", stringsAsFactors = F)
+source("../functions.R")
 
 tweets$geo.dummy <- ifelse(tweets$geo.type=="Point", 0, 1)
 ```
