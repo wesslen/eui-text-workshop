@@ -24,7 +24,7 @@ The dataset is a 20% sample of all Charlotte geo-located Tweets in a three month
 
 ```{r}
 # remember to set your working directory setwd()
-raw.tweets <- read.csv("CharlotteTweets20Sample.csv", stringsAsFactors = F)
+raw.tweets <- read.csv("/datasets/CharlotteTweets20Sample.csv", stringsAsFactors = F)
 source("functions.R")
 timePlot(raw.tweets, smooth = TRUE)
 ```
