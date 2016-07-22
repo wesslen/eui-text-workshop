@@ -12,17 +12,17 @@ knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
 
 #### Unsupervised machine learning
 
-We're going to run topic modeling on Tweets - the exception is we're going to combine all users Tweets, essentially running a user-level topic modeling.
+We're going to run topic modeling on Tweets - the exception is we're going to combine all users' Tweets by each user, essentially running a user-level topic modeling.
 
-1. First, read our Charlotte sample dataset and create the DFM object. Trim all words used less than 10 times.
+1. First, read our Charlotte sample dataset and create the DFM object. Trim all words used less than 50 times.
 
 ```{r}
-tweets <- read.csv('./datasets/CharlotteTweets20Sample.csv', stringsAsFactors=F)
+tweets <- read.csv('../datasets/CharlotteTweets20Sample.csv', stringsAsFactors=F)
 
 library(quanteda)
 twcorpus <- corpus(tweets$body)
 docvars(twcorpus, "actor.id") <- as.character(tweets$actor.id) 
-twdfm <- dfm(twcorpus, groups = "actor.id", ignoredFeatures = c(stopwords("english"), "t.co", "https", "rt", "amp", "http", "t.c", "can", "u"), ngrams=c(1,2))
+twdfm <- dfm(twcorpus, groups = "actor.id", ignoredFeatures = c(stopwords("english"), "t.co", "https", "rt", "amp", "http", "t.c", "can", "u") , ngrams=c(1,2))
 twdfm <- trim(twdfm, minDoc = 50)
 topfeatures(twdfm)
 ```
