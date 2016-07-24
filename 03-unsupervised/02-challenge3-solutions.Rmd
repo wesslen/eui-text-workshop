@@ -18,6 +18,7 @@ We're going to run topic modeling on Tweets - the exception is we're going to co
 
 ```{r}
 tweets <- read.csv('../datasets/CharlotteTweets20Sample.csv', stringsAsFactors=F)
+source('../functions.R')
 
 library(quanteda)
 twcorpus <- corpus(tweets$body)
