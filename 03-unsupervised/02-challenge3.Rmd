@@ -14,7 +14,7 @@ knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
 
 We're going to run topic modeling on Tweets - the exception is we're going to combine all users Tweets, essentially running a user-level topic modeling.
 
-1. First, read our Charlotte sample dataset and create the DFM object. Trim all words used less than 10 times.
+1. First, read our Charlotte sample dataset and create the DFM object. Trim all words used less than 40 times.
 
 ```{r}
 
@@ -47,3 +47,4 @@ BONUS. Experiment with different number of topics. Which value appears to be mor
 BONUS. BONUS. Use `KL.empirical` from the `entropy` library to calculate KL Divergence by user's topic distributions. This will give a similarity measure (e.g., recommender) that will measure which users are most similar to this user. 
 
 ```{r}
+```
