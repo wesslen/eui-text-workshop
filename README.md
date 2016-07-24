@@ -12,22 +12,22 @@
 
 Original materials are by [Pablo Barber&aacute;](http://pablobarbera.com/), sponsored by [Quantitative Methods Working Group, European University Institute](https://sites.google.com/site/qmwgroup/). Please see the forked original workshop materials. Thanks to Pablo for allowing us to use his materials!
 
-Additional content (via Pablo Barber&aacute;) were based on materials prepared by [Dan Cervone](http://dcervone.com/), [Alex Hanna](http://alex-hanna.com), [Ken Benoit](http://www.kenbenoit.net/), [Paul Nulty](https://github.com/pnulty), [Kevin Munger](https://github.com/kmunger), and [Justin Grimmer](http://www.justingrimmer.org/).)
+Additional content (via Pablo Barber&aacute;) were based on materials prepared by [Dan Cervone](http://dcervone.com/), [Alex Hanna](http://alex-hanna.com), [Ken Benoit](http://www.kenbenoit.net/), [Paul Nulty](https://github.com/pnulty), [Kevin Munger](https://github.com/kmunger), and [Justin Grimmer](http://www.justingrimmer.org/).
 
 For Project Mosaic's workshop, I've created new challenges for each module using Charlotte Twitter datasets. 
 
-All of the material below is from the original workshop, except the schedule that reflects the Project Mosaic workshop materials.
+The material below has been modified from the original workshop.
 
 ## Description
 
 The popularity of text as data is increasing rapidly within the social sciences. “Scholars have long recognized this, but the massive costs of analyzing even moderately sized collections of texts have hindered their use in political science research” (Grimmer and Stewart 2013) and elsewhere in the social sciences. This situation has changed with increasing computing power and more capable computing tools. In the coming years, the relevance of text data will further increase as more and more human communication is recorded online.
 
-This workshop provides an introduction to text analysis using R. We will cover methods to conduct quantitative analysis of textual and web data, with an emphasis on social media data, applied to the study of social science questions. The workshop is made up of three "modules", each consisting of an introduction to a topic followed by examples and applications using R. The first module will cover how to format and input source texts, how to prepare the data for analysis, and how to extract descriptive statistics. The second module will discuss automated classification of text sources into categories using dictionary methods and supervised learning. Finally, the third module will discuss unsupervised classification of text into categories using topic modeling.
+This workshop provides an introduction to text analysis using R, focusing on Twitter datasets. We will cover methods to conduct quantitative analysis of textual and web data applied to the study of social science questions. The workshop is made up of three "modules", each consisting of an introduction to a topic followed by examples and applications using R. The first module will cover how to format and input source texts, how to prepare the data for analysis, and how to extract descriptive statistics. The second module will discuss automated classification of text sources into categories using dictionary methods and supervised learning. Finally, the third module will discuss unsupervised classification of text into categories using topic modeling.
 
 
 ## Setup and Preparation
 
-You will need to bring a laptop to all sessions of the workshop. You will need [R](https://cran.r-project.org/) and [RStudio](https://www.rstudio.com/) installed. [Follow the instructions here to install both](https://github.com/pablobarbera/eui-text-workshop/blob/master/installing_RStudio.pdf).
+You will need [R](https://cran.r-project.org/) and [RStudio](https://www.rstudio.com/) installed. [Follow the instructions here to install both](https://github.com/pablobarbera/eui-text-workshop/blob/master/installing_RStudio.pdf).
 
 ### Instructions for using course materials on GitHub ###
 
@@ -46,15 +46,15 @@ You can also subscribe to the repository if you have [a GitHub account](https://
 
 | Time         | Topic                                                     |
 | ------------ | ---------------------------------------                   |
-| 10:00-10:30  | Introduction to Twitter              | 
+| 10:00-10:30  | Introduction to Twitter Analytics              | 
 | 10:30-11:00  | [Descriptive analysis, regular expressions](01-intro/02-descriptive.Rmd)              | 
 | 11:00-11:15  | [Dictionary methods](01-intro/03-dictionaries.Rmd)              | 
 | 11:15-12:00  | [Challenge I](01-intro/04-challenge1.Rmd)              | 
 | 12:00- 1:00  | Lunch Break |
 |  1:00- 2:00  | [Supervised methods](02-supervised/01-supervised.Rmd)                  | 
 |  2:00- 2:30  | [Challenge II](02-supervised/02-challenge2.Rmd)    |
-|  2:30- 3:00  | Coffee Break |
-|  3:00- 3:30  | [Unsupervised methods](03-unsupervised/01-topic-models.Rmd)                  | 
+|  2:30- 2:50  | Coffee Break |
+|  2:50- 3:30  | [Unsupervised methods](03-unsupervised/01-topic-models.Rmd)                  | 
 |  3:30- 4:00  | [Challenge III](03-unsupervised/02-challenge3.Rmd)    |
-|  4:00- 5:00  | Data (e.g. Public API) and Research Ideas    |
+|  4:00- 5:00  | Working Session: Data (e.g. Public API) and Research Ideas    |
 
