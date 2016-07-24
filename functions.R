@@ -112,3 +112,90 @@ heatmapPlot <-
     CltMap
 
   }
+
+cvLDA <- function(Ntopics,dtm,K=10) {
+  folds<-cvFolds(nrow(dtm),K,1)
+  perplex <- rep(NA,K)
+  llk <- rep(NA,K)
+  for(i in unique(folds$which)){
+    cat(i, " ")
+    which.test <- folds$subsets[folds$which==i]
+    which.train <- {1:nrow(dtm)}[-which.test]
+    dtm.train <- dtm[which.train,]
+    dtm.test <- dtm[which.test,]
+    lda.fit <- LDA(dtm.train, k=Ntopics, method="Gibbs",
+                   control=list(verbose=50L, iter=100))
+    perplex[i] <- perplexity(lda.fit,dtm.test)
+    llk[i] <- logLik(lda.fit)
+  }
+  return(list(K=Ntopics,perplexity=perplex,logLik=llk))
+}
+
+topicPlots <- function(results,K){
+  ## plot
+  df <- data.frame(
+    k = rep(K, each=10),
+    perp =  unlist(lapply(results, '[[', 'perplexity')),
+    loglk = unlist(lapply(results, '[[', 'logLik')),
+    stringsAsFactors=F)
+  
+  min(df$perp)
+  df$ratio_perp <- df$perp / max(df$perp)
+  df$ratio_lk <- df$loglk / min(df$loglk)
+  
+  df <- data.frame(cbind(
+    aggregate(df$ratio_perp, by=list(df$k), FUN=mean),
+    aggregate(df$ratio_perp, by=list(df$k), FUN=sd)$x,
+    aggregate(df$ratio_lk, by=list(df$k), FUN=mean)$x,
+    aggregate(df$ratio_lk, by=list(df$k), FUN=sd)$x),
+    stringsAsFactors=F)
+  names(df) <- c("k", "ratio_perp", "sd_perp", "ratio_lk", "sd_lk")
+  library(reshape)
+  pd <- melt(df[,c("k","ratio_perp", "ratio_lk")], id.vars="k")
+  pd2 <- melt(df[,c("k","sd_perp", "sd_lk")], id.vars="k")
+  pd$sd <- pd2$value
+  levels(pd$variable) <- c("Perplexity", "LogLikelihood")
+  
+  library(ggplot2)
+  library(grid)
+  
+  p <- ggplot(pd, aes(x=k, y=value, linetype=variable))
+  pq <- p + geom_line() + geom_point(aes(shape=variable), 
+                                     fill="white", shape=21, size=1.40) +
+    geom_errorbar(aes(ymax=value+sd, ymin=value-sd), width=4) +
+    scale_y_continuous("Ratio wrt worst value") +
+    scale_x_continuous("Number of topics", 
+                       breaks=K) +
+    theme_bw() 
+  pq
+}
+
+topicmodels_json_ldavis <- function(fitted, dfm, dtm){
+  # Required packages
+  library(topicmodels)
+  library(dplyr)
+  library(stringi)
+  library(quanteda)
+  library(LDAvis)
+  library(tm)
+  
+  # Find required quantities
+  phi <- posterior(fitted)$terms %>% as.matrix
+  theta <- posterior(fitted)$topics %>% as.matrix
+  vocab <- colnames(phi)
+  
+  doc_length <- ntoken(dfm[rownames(dtm)])
+  
+  temp_frequency <- inspect(dtm)
+  freq_matrix <- data.frame(ST = colnames(temp_frequency),
+                            Freq = colSums(temp_frequency))
+  rm(temp_frequency)
+  
+  # Convert to json
+  json_lda <- LDAvis::createJSON(phi = phi, theta = theta,
+                                 vocab = vocab,
+                                 doc.length = doc_length,
+                                 term.frequency = freq_matrix$Freq)
+  
+  return(json_lda)
+}
