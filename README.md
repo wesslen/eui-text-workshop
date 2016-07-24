@@ -49,12 +49,12 @@ You can also subscribe to the repository if you have [a GitHub account](https://
 | 10:00-10:30  | Introduction to Twitter              | 
 | 10:30-11:00  | [Descriptive analysis, regular expressions](01-intro/02-descriptive.Rmd)              | 
 | 11:00-11:15  | [Dictionary methods](01-intro/03-dictionaries.Rmd)              | 
-| 11:15-12:00  | [Challenge I](01-intro/04-challenge1-solutions.Rmd)              | 
+| 11:15-12:00  | [Challenge I](01-intro/04-challenge1.Rmd)              | 
 | 12:00- 1:00  | Lunch Break |
 |  1:00- 2:00  | [Supervised methods](02-supervised/01-supervised.Rmd)                  | 
-|  2:00- 2:30  | [Challenge II](02-supervised/02-challenge2-solutions.Rmd)    |
+|  2:00- 2:30  | [Challenge II](02-supervised/02-challenge2.Rmd)    |
 |  2:30- 3:00  | Coffee Break |
 |  3:00- 3:30  | [Unsupervised methods](03-unsupervised/01-topic-models.Rmd)                  | 
-|  3:30- 4:00  | [Challenge III](03-unsupervised/02-challenge3-solutions.Rmd)    |
+|  3:30- 4:00  | [Challenge III](03-unsupervised/02-challenge3.Rmd)    |
 |  4:00- 5:00  | Data (e.g. Public API) and Research Ideas    |
 
