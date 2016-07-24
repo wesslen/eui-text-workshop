@@ -14,7 +14,7 @@ knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
 
 We're going to run topic modeling on Tweets - the exception is we're going to combine all users' Tweets by each user, essentially running a user-level topic modeling.
 
-1. First, read our Charlotte sample dataset and create the DFM object. Trim all words used less than 50 times.
+1. First, read our Charlotte sample dataset and create the DFM object. Trim all words used less than 40 times.
 
 ```{r}
 tweets <- read.csv('../datasets/CharlotteTweets20Sample.csv', stringsAsFactors=F)
@@ -22,12 +22,13 @@ tweets <- read.csv('../datasets/CharlotteTweets20Sample.csv', stringsAsFactors=F
 library(quanteda)
 twcorpus <- corpus(tweets$body)
 docvars(twcorpus, "actor.id") <- as.character(tweets$actor.id) 
-twdfm <- dfm(twcorpus, groups = "actor.id", ignoredFeatures = c(stopwords("english"), "t.co", "https", "rt", "amp", "http", "t.c", "can", "u") , ngrams=c(1,2))
-twdfm <- trim(twdfm, minDoc = 50)
+twdfm <- dfm(twcorpus, groups = "actor.id", ignoredFeatures = c(stopwords("english"), "t.co", "https", "rt", "amp", "http", "t.c", "can", "u"), removeTwitter = TRUE, ngrams=c(1,2))
+twdfm <- trim(twdfm, minDoc = 40)
 topfeatures(twdfm)
 ```
 
-2. Now, estimate the topic model using a number of topics that you think is reasonable.
+2. Now, estimate the topic model using a number of topics that you think is reasonable. 
+
 ```{r}
 # install.packages("topicmodels")
 library(topicmodels)
@@ -40,9 +41,23 @@ K <- 20
 lda <- LDA(dtm, k = K, method = "Gibbs", 
                 control = list(verbose=25L, seed = 123, burnin = 100, iter = 500))
 
-terms <- get_terms(lda, 10)
-colnames(terms) <- paste("Topic",1:20)
-terms
+term <- terms(lda, 10)
+colnames(term) <- paste("Topic",1:K)
+term
+```
+
+```{r, eval=FALSE, include=FALSE}
+#Create Json for LDAVis
+library(LDAvis)
+json <- topicmodels_json_ldavis(lda,twdfm,dtm)
+new.order <- RJSONIO::fromJSON(json)$topic.order
+
+term <- terms(lda, 10)
+term <- term[,new.order]
+colnames(term) <- paste("Topic",1:K)
+term
+
+serVis(json, out.dir = 'charlotteLDA', open.browser = TRUE)
 ```
 
 3. Find the user with the highest topic probability in Topic 1. Extract the actor.id and then filter the original dataset to find all Tweets by the user.
@@ -53,11 +68,12 @@ How accurate was the topic to finding the "highest" user of the Tweets?
 # to get topic probabilities per actor ID (Twitter user)
 postlist <- posterior(lda)
 probtopics <- data.frame(postlist$topics)
+#probtopics <- probtopics[,new.order]
+colnames(probtopics) <- paste("Topic",1:K)
 
-row <- order(-probtopics$X1)
+row <- order(-probtopics$`Topic 1`)
 actorid <- rownames(probtopics[row[1],])
 filter.data <- subset(tweets, actor.id == actorid)
-
 ```
 
 4. Find a different topic. Find the top 5 users and similarly filter out their tweets. 
@@ -70,6 +86,23 @@ How accurate were the Tweets to the topic? What other topics does the actor have
 
 BONUS. Experiment with different number of topics. Which value appears to be more appropriate?
 
-BONUS. BONUS. Use `KL.empirical` from the `entropy` library to calculate KL Divergence by user's topic distributions. This will give a similarity measure (e.g., recommender) that will measure which users are most similar to this user. 
-
 ```{r}
+# install.packages("cvTools")
+require(cvTools)
+
+K <- c(5, 10, 20, 30, 40)
+
+results <- list()
+
+i = 1
+for (k in K){
+    cat("\n\n\n##########\n ", k, "topics", "\n")
+    res <- cvLDA(k, dtm)
+    results[[i]] <- res
+    i = i + 1
+}
+
+topicPlots(results,K)
+```
+
+BONUS. BONUS. Use `KL.empirical` from the `entropy` library to calculate KL Divergence by user's topic distributions. This will give a similarity measure (e.g., recommender) that will measure which users are most similar to this user. 
