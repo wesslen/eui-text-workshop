@@ -46,6 +46,8 @@ colnames(term) <- paste("Topic",1:K)
 term
 ```
 
+If you want to run a LDA interactive visualization, run this chunk:
+
 ```{r, eval=FALSE, include=FALSE}
 #Create Json for LDAVis
 library(LDAvis)
