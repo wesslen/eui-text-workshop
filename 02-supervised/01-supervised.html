@@ -125,7 +125,7 @@ $(document).ready(function () {
 
 <div id="supervised-machine-learning" class="section level3">
 <h3>Supervised machine learning</h3>
-<p>We’ll be working with tweets from the four major US presidential canidates’ Twitter accounts. The goal</p>
+<p>We’ll be working with tweets from the four major US presidential candidates’ Twitter accounts.</p>
 <p>Let’s create an algorithm to determine what words most distinctively are used by Donald Trump (realDonaldTrump) relative to Ted Cruz (tedcruz).</p>
 <pre class="r"><code>library(quanteda)</code></pre>
 <pre><code>## Warning: replacing previous import by 'data.table::rbindlist' when loading
@@ -160,7 +160,7 @@ twdfm &lt;- dfm(twcorpus, ignoredFeatures=c(
 ##    ... removed 177 features, from 181 supplied (glob) feature types
 ##    ... created a 16995 x 23702 sparse dfm
 ##    ... complete. 
-## Elapsed time: 1.083 seconds.</code></pre>
+## Elapsed time: 1.098 seconds.</code></pre>
 <pre class="r"><code>twdfm &lt;- trim(twdfm, minDoc = 10)</code></pre>
 <pre><code>## Removing features occurring in fewer than 10 documents: 21594</code></pre>
 <p>And split the dataset into training and test set. We’ll go with 80% training and 20% set. Note the use of a random seed to make sure our results are replicable.</p>
@@ -311,7 +311,7 @@ cdfm &lt;- dfm(ccorpus, ignoredFeatures=c(stopwords(&quot;english&quot;), &quot;
 ##    ... removed 179 features, from 181 supplied (glob) feature types
 ##    ... created a 100 x 182417 sparse dfm
 ##    ... complete. 
-## Elapsed time: 6.727 seconds.</code></pre>
+## Elapsed time: 6.697 seconds.</code></pre>
 <pre class="r"><code>cdfm &lt;- trim(cdfm, minDoc = 2)</code></pre>
 <pre><code>## Removing features occurring in fewer than 2 documents: 149659</code></pre>
 <pre class="r"><code># running wordscores

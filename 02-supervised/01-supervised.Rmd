@@ -7,7 +7,7 @@ output: html_document
 
 ### Supervised machine learning
 
-We'll be working with tweets from the four major US presidential canidates' Twitter accounts. The goal
+We'll be working with tweets from the four major US presidential candidates' Twitter accounts.
 
 Let's create an algorithm to determine what words most distinctively are used by Donald Trump (realDonaldTrump) relative to Ted Cruz (tedcruz).
 

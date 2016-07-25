@@ -36,7 +36,7 @@ Objectives
     
  2. How to **handle** Twitter data including an overview of Twitter’s raw format (JSON) and converted formats (CSV/data frame).
 
- 3. How to **analyze** Twitter data with text mining tools: *visualizations*, *supervised learning* (lasso and dictionary-based) and *topic modeling* (LDA).
+ 3. How to **analyze** Twitter data with text mining tools: *visualizations*, *sentiment analysis* (dictionary-based), *supervised learning* (ridge regression) and *topic modeling* (LDA).
     
  4. Tips on minimizing Twitter noise and optimizing query searches for research questions.
     
