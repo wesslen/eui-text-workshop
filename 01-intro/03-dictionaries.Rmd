@@ -65,7 +65,7 @@ table(tweets$sentiment)
 We can also disaggregate by groups of tweets, for example according to the party they mention.
 
 ```{r}
-parties <- c("labour", "ukip", "conservative", "snp")
+parties <- c("jobs", "terrorism", "establishment", "gun")
 
 for (p in parties){
   message(p, " -- average sentiment: ",

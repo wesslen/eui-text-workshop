@@ -33,11 +33,9 @@ You will need [R](https://cran.r-project.org/) and [RStudio](https://www.rstudio
 
 You have three options for downloading the course material found on this page:  
 
-1.  You can download the materials by clicking on each link.  
+1.  Most simply, you can choose the button on the right marked "Download zip" which will download the entire repository as a zip file.
 
 2.  You can "clone" repository, using the buttons found to the right side of your browser window as you view this repository.  This is the button labelled "Clone in Desktop".  If you do not have a git client installed on your system, you will need to [get one here](https://git-scm.com/download/gui) and also to make sure that [git is installed](https://git-scm.com/downloads).  This is preferred, since you can refresh your clone as new content gets pushed to the course repository.  (And new material will get actively pushed to the course repository while this course takes place.)
-
-3.  Most simply, you can choose the button on the right marked "Download zip" which will download the entire repository as a zip file.
 
 You can also subscribe to the repository if you have [a GitHub account](https://github.com), which will send you updates each time new changes are pushed to the repository.
 
@@ -46,7 +44,8 @@ You can also subscribe to the repository if you have [a GitHub account](https://
 
 | Time         | Topic                                                     |
 | ------------ | ---------------------------------------                   |
-| 10:00-10:30  | Introduction to Twitter Analytics              | 
+| 9:00 -10:00  | [Optional: Introduction to R](01-intro/00-setup.Rmd)              | 
+| 10:00-10:30  | [Introduction to Twitter Analytics](ProjectMosaicWorkshopPresentation.html)              | 
 | 10:30-11:00  | [Descriptive analysis, regular expressions](01-intro/02-descriptive.Rmd)              | 
 | 11:00-11:15  | [Dictionary methods](01-intro/03-dictionaries.Rmd)              | 
 | 11:15-12:00  | [Challenge I](01-intro/04-challenge1.Rmd)              | 

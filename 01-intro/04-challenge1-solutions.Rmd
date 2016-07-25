@@ -29,11 +29,11 @@ source("../functions.R")
 timePlot(raw.tweets, smooth = TRUE)
 ```
 
-2. Save the most common hashtags (function `getCommonHashtags`); make sure to use the Tweet text (body) as the input. What are the top 10 hashtags?
+2. Find the most common hashtags (function `getCommonHashtags`); make sure to use the Tweet text (body) as the input. What are the top 25 hashtags?
 
  * Repeat the same exercise with the handle function (`getCommonHandles`). 
 
- * Modify for the top 25 handles and hashtags.
+ * Use the `kwic` function to find other panther words.
 
 ```{r}
 hashtags <- getCommonHashtags(raw.tweets$body)
@@ -43,9 +43,11 @@ head(hashtags, 25)
 handles <- getCommonHandles(raw.tweets$body)
 
 head(handles, 25)
+
+head(kwic(twcorpus, "panthers", window=5),10)
 ```
 
-3. Choose hashtags and handles that you think will best identify Carolina Panther Tweets. 
+3. Choose multiple keywords (could include hashtags, handles) that you think will best identify Carolina Panther Tweets. 
 
   * put the hashtags and handles into a character vector: names <- c("keyword1","keyword2")
 
@@ -74,14 +76,14 @@ nrow(panther.tweets)
  * Rerun the word cloud but tfidf weighting. What's the difference?
 
 ```{r}
-library(quanteda)
+library(quanteda); library(RColorBrewer)
 
 corpus <- corpus(panther.tweets$body)
 docvars(corpus) <- data.frame(geo.type=raw.tweets$geo.type)
 
 dfm <- dfm(corpus, ignoredFeatures = c(stopwords("english"), "t.co", "https", "rt", "amp", "http", "t.c", "can", "u"), ngrams=c(1,2))
 topfeatures(dfm)
-plot(dfm, rot.per=0, scale=c(3.5, .75), max.words=100)
+plot(dfm, rot.per=0, scale=c(3.5, .75), colors=brewer.pal(8, "Dark2"), max.words=100)
 ```
 
 5. Rerun the dfm but this time add in the geo.type as a group. Run a comparison word cloud (`comparison = TRUE`). This may take a few minutes.
@@ -108,5 +110,5 @@ BONUS. Additional pre-processing steps can sometimes improve results. Run additi
 ```{r}
 dfm <- dfm(corpus, ignoredFeatures = c(stopwords("english"), "t.co", "https", "rt", "amp", "http", "t.c", "can", "u"), stem = TRUE, twitter = TRUE, ngrams=c(1,3))
 topfeatures(dfm)
-plot(dfm, rot.per=0, scale=c(3.5, .75), max.words=100)
+plot(dfm, rot.per=0, scale=c(3.5, .75), colors=brewer.pal(8, "Dark2"), max.words=100)
 ```

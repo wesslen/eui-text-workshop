@@ -1,20 +1,25 @@
 ---
 title: "Introduction to automated text analysis"
-author: Pablo Barbera
-date: May 19, 2016
+author: Ryan Wesslen (modified)
+date: July 27, 2016
 output: html_document
 ---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
+                      echo=TRUE, warning=FALSE, message=FALSE)
+```
 
 ### String manipulation with R
 
 We will start with basic string manipulation with R.
 
-Our running example will be a random sample of 10,000 tweets mentioning the names of the candidates to the 2014 EP elections in the UK. We'll save the text of these tweets as a vector called `text'
+Our first example will be a 20% sample of all Charlotte geo-located tweets between Dec 1 2015 and Feb 29 2016. We'll save the text of these tweets as a vector called `text'
 
 ```{r}
-tweets <- read.csv("../datasets/EP-elections-tweets.csv", stringsAsFactors=F)
-head(tweets)
-text <- tweets$text
+tweets <- read.csv("../datasets/CharlotteTweets20Sample.csv", stringsAsFactors=F)
+str(tweets)
+text <- tweets$body
 ```
 
 R stores the basic string in a character vector. `length` gets the number of items in the vector, while `nchar` is the number of characters in the vector.
@@ -41,8 +46,8 @@ paste(text[1], text[2], sep='--')
 Charcter vectors can be compared using the `==` and `%in%` operators:
 
 ```{r}
-tweets$screen_name[1]=="martinwedge"
-"DavidCoburnUKip" %in% tweets$screen_name
+tweets$geo.type[1]=="Polygon"
+"Twitter for iPhone" %in% tweets$generator.displayName
 ```
 
 As we will see later, it is often convenient to convert all words to lowercase or uppercase.
@@ -73,23 +78,23 @@ We can split up strings by a separator using `strsplit`. If we choose space as t
 strsplit(text[1], " ")
 ```
 
-Let's dit into the data a little bit more. Given the construction of the dataset, we can expect that there will be many tweets mentioning the names of the candidates, such as @Nigel_Farage, We can use the `grep` command to identify these. `grep` returns the index where the word occurs.
+Let's dit into the data a little bit more. Let's try to find Carolina Panther Tweets. To do so, let's use the `grep` command to identify tweets with #KeepPounding. The `grep` function returns the index where the word occurs.
 
 ```{r}
-grep('@Nigel_Farage', text[1:10])
+grep('#KeepPounding', text[1:20])
 ```
 
 `grepl` returns `TRUE` or `FALSE`, indicating whether each element of the character vector contains that particular pattern.
 
 ```{r}
-grepl('@Nigel_Farage', text[1:10])
+grepl('#KeepPounding', text[1:20])
 ```
 
-Going back to the full dataset, we can use the results of `grep` to get particular rows. First, check how many tweets mention the handle "@Nigel_Farage".
+Going back to the full dataset, we can use the results of `grep` to get particular rows. First, check how many tweets mention the handle "#KeepPounding".
 ```{r}
 nrow(tweets)
-grep('@Nigel_Farage', tweets$text[1:10])
-length(grep('@Nigel_Farage', tweets$text))
+grep('#KeepPounding', tweets$body[1:20])
+length(grep('#KeepPounding', tweets$body))
 
 ```
 
@@ -97,8 +102,8 @@ It is important to note that matching is case-sensitive. You can use the `ignore
 
 ```{r}
 nrow(tweets)
-length(grep('@Nigel_Farage', tweets$text))
-length(grep('@Nigel_Farage', tweets$text, ignore.case = TRUE))
+length(grep('#KeepPounding', tweets$body))
+length(grep('#KeepPounding', tweets$body, ignore.case = TRUE))
 ```
 
 ### Regular expressions
@@ -109,17 +114,17 @@ For example, we could look at tweets that mention more than one handle using the
 
 ```{r}
 nrow(tweets)
-length(grep('@Nigel_Farage|@UKIP', tweets$text, ignore.case=TRUE))
+length(grep('#KeepPounding|#Panthers', tweets$body, ignore.case=TRUE))
 ```
 
 We can also use question marks to indicate optional characters.
 
 ```{r}
 nrow(tweets)
-length(grep('MEP?', tweets$text, ignore.case=TRUE))
+length(grep('cam?', tweets$text, ignore.case=TRUE))
 ```
 
-This will match MEP, MEPs, etc.
+This will match Cam, Cameron, etc.
 
 Other common expression patterns are:
 
@@ -129,24 +134,26 @@ Other common expression patterns are:
 - Special characters such as `.`, `\`, `(` or `)` must be preceded by a backslash.  
 - See `?regex` for more details.
 
-For example, how many tweets are direct replies to @Nigel_Farage? How many tweets are retweets? How many tweets mention any username?
+For example, how many tweets are direct replies to @Panthers? How many tweets are retweets? How many tweets mention any username?
+
 ```{r}
-length(grep('^@Nigel_Farage', tweets$text, ignore.case=TRUE))
-length(grep('^RT @', tweets$text, ignore.case=TRUE))
-length(grep('@[A-Za-z0-9]+ ', tweets$text, ignore.case=TRUE))
+length(grep('^@Panthers', tweets$body, ignore.case=TRUE))
+length(grep('^RT @', tweets$body, ignore.case=TRUE))
+length(grep('@[A-Za-z0-9]+ ', tweets$body, ignore.case=TRUE))
 ```
 
 
 Another function that we will use is `gsub`, which replaces a pattern (or a regular expression) with another string:
 
 ```{r}
-gsub('@[0-9_A-Za-z]+', 'USERNAME', text[1])
+gsub('WR', 'Wide Receiver', text[1])
 ```
 
 To extract a pattern, and not just replace, use parentheses and choose the option `repl="\\1"`:
 
 ```{r}
-gsub('.*@([0-9_A-Za-z]+) .*', text[1], repl="\\1")
+text[7]
+gsub('.*@([0-9_A-Za-z]+) .*', text[7], repl="\\1")
 ```
 
 You can make this a bit more complex using `gregexpr`, which will extract the location of the matches, and then `regmatches` 
@@ -165,9 +172,9 @@ head(sort(table(hashtags), decreasing=TRUE), n=25)
 Now let's try to identify what tweets are related to UKIP and try to extract them. How would we do it? First, let's create a new column to the data frame that has value `TRUE` for tweets that mention this keyword and `FALSE` otherwise. Then, we can keep the rows with value `TRUE`.
 
 ```{r}
-tweets$ukip <- grepl('ukip|farage', tweets$text, ignore.case=TRUE)
-table(tweets$ukip)
-ukip.tweets <- tweets[tweets$ukip==TRUE, ]
+tweets$panthers <- grepl('#KeepPounding|#Panthers', tweets$body, ignore.case=TRUE)
+table(tweets$panthers)
+panthers.tweets <- tweets[tweets$panthers==TRUE, ]
 ```
 
 ### Preprocessing text with quanteda
@@ -179,16 +186,16 @@ The basic unit of work for the `quanteda` package is called a `corpus`, which re
 ```{r}
 #install.packages("quanteda")
 library(quanteda)
-twcorpus <- corpus(tweets$text)
-summary(twcorpus)
+twcorpus <- corpus(tweets$body)
+summary(twcorpus,10)
 ```
 
 A useful feature of corpus objects is _keywords in context_, which returns all the appearances of a word (or combination of words) in its immediate context.
 
 ```{r}
-kwic(twcorpus, "brexit", window=10)
-kwic(twcorpus, "miliband", window=10)
-kwic(twcorpus, "eu referendum", window=10)
+head(kwic(twcorpus, "hornets", window=5),10)
+head(kwic(twcorpus, "beer", window=5),10)
+head(kwic(twcorpus, "amy", window=5),10)
 ```
 
 We can then convert a corpus into a document-feature matrix using the `dfm` function.
@@ -209,22 +216,22 @@ Note that here we use ngrams -- this will extract all combinations of one, two, 
 
 You can explore what each of these options do by using the `tokenize` function: 
 ```{r}
-tokenize(tweets$text[1])
-tokenize(tweets$text[1], verbose=TRUE)
-tokenize(tweets$text[1], removeNumbers=TRUE, removePunct=TRUE)
-tokenize(tweets$text[1], removeNumbers=FALSE, removePunct=TRUE)
-tokenize(tweets$text[1], removeNumbers=FALSE, removePunct=FALSE)
-tokenize(tweets$text[1], removeNumbers=FALSE, removePunct=FALSE, removeTwitter=FALSE)
-tokenize(tweets$text[1], removeNumbers=FALSE, removePunct=FALSE, removeTwitter=TRUE)
-tokenize(tweets$text[1], removeNumbers=FALSE, removePunct=FALSE, removeSeparators=FALSE)
-tokenize(tweets$text[1], stem=FALSE)
+tokenize(tweets$body[1])
+tokenize(tweets$body[1], verbose=TRUE)
+tokenize(tweets$body[1], removeNumbers=TRUE, removePunct=TRUE)
+tokenize(tweets$body[1], removeNumbers=FALSE, removePunct=TRUE)
+tokenize(tweets$body[1], removeNumbers=FALSE, removePunct=FALSE)
+tokenize(tweets$body[1], removeNumbers=FALSE, removePunct=FALSE, removeTwitter=FALSE)
+tokenize(tweets$body[1], removeNumbers=FALSE, removePunct=FALSE, removeTwitter=TRUE)
+tokenize(tweets$body[1], removeNumbers=FALSE, removePunct=FALSE, removeSeparators=FALSE)
+tokenize(tweets$body[1], stem=FALSE)
 ```
 
 Stemming relies on the `SnowballC` package's implementation of the Porter stemmer:
 
 ```{r}
-tokenize(tweets$text[1])
-wordstem(tokenize(tweets$text[1]))
+tokenize(tweets$body[1])
+wordstem(tokenize(tweets$body[1]))
 ```
 
 In a large corpus like this, many features often only appear in one or two documents. In some case it's a good idea to remove those features, to speed up the analysis or because they're not relevant. We can `trim` the dfm:
@@ -256,19 +263,19 @@ plot(twdfm, rot.per=0, scale=c(3.5, .75), max.words=100)
 One nice feature of quanteda is that we can easily add metadata to the corpus object.
 
 ```{r}
-docvars(twcorpus) <- data.frame(screen_name=tweets$screen_name, polite=tweets$polite)
-summary(twcorpus)
+docvars(twcorpus) <- data.frame(geo.type=tweets$geo.type, device=tweets$generator.displayName)
+summary(twcorpus,10)
 ```
 
 We can then use this metadata to subset the dataset:
 
 ```{r}
-polite.tweets <- subset(twcorpus, polite=="impolite")
+point.tweets <- subset(twcorpus, geo.type=="Point")
 ```
 
 And then extract the text:
 ```{r}
-mytexts <- texts(polite.tweets)
+mytexts <- texts(point.tweets)
 ```
 
 We'll come back later to this dataset.
@@ -278,7 +285,7 @@ We'll come back later to this dataset.
 There are different ways to read text into `R` and create a `corpus` object with `quanteda`. We have already seen the most common way, importing the text from a csv file and then adding the metadata, but `quanteda` has a built-in function to help with this:
 
 ```{r}
-tweets <- textfile(file='../datasets/EP-elections-tweets.csv', textField = 'text')
+tweets <- textfile(file='../datasets/CharlotteTweets20Sample.csv', textField = 'body')
 twcorpus <- corpus(tweets)
 ```
 

@@ -1,9 +1,14 @@
 ---
 title: "Descriptive analysis of text"
-author: Pablo Barbera
-date: May 19, 2016
+author: Ryan Wesslen (modified)
+date: July 27, 2016
 output: html_document
 ---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
+                      echo=TRUE, warning=FALSE, message=FALSE)
+```
 
 In this module we will discuss some quick descriptive statistics of text datasets. We'll be working with the dataset of inaugural speeches of U.S. Presidents
 
@@ -43,15 +48,11 @@ head(features(presDfm), 20)
 head(docnames(presDfm))
 ```
 
-A common type of analysis to understand the content of a corpus is to extract collocations -- combinations of words that are more likely to appear together than what is expected based on their frequency distribution in the corpus as isolated words. There are different significante tests to identify whether a combination of words is a collocation or not (see the help file).
+A common type of analysis to understand the content of a corpus is to extract collocations -- combinations of words that are more likely to appear together than what is expected based on their frequency distribution in the corpus as isolated words. There are different significance tests to identify whether a combination of words is a collocation or not (see the help file).
 
 ```{r}
 collocations(inaug, size = 2, method = "all")
 collocations(inaug, size = 3, method = "all")
-
-tweets <- read.csv("../datasets/EP-elections-tweets.csv", stringsAsFactors=F)
-twcorpus <- corpus(tweets$text)
-collocations(twcorpus, size = 2, method = "all")
 ```
  
 A text document can also be characterized based on its readability and lexical diversity, which capture different aspects of its complexity. There are MANY indices that compute this. Note that each of these functions is applied to a different type of object (`corpus` or `dfm`).
@@ -107,34 +108,49 @@ similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", met
 similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "eJaccard")
 ```
 
-And the opposite: term similarity based on the frequency with which they appear in documents:
+And the opposite: term similarity based on the frequency with which they appear in documents.
+
+Let's go back to the Charlotte dataset and try to filter for panther Tweets by two keyword hashtags:
+
 ```{r}
+tweets <- read.csv("../datasets/CharlotteTweets20Sample.csv", stringsAsFactors=F)
+
+tweets$panthers <- grepl('#KeepPounding|#Panthers', tweets$body, ignore.case=TRUE)
+table(tweets$panthers)
+panthers.tweets <- tweets[tweets$panthers==TRUE, ]
+
+twcorpus <- corpus(panthers.tweets$body)
+collocations(twcorpus, size = 2, method = "all")
+
 # we'll work with the tweets DFM
 twdfm <- dfm(twcorpus, ignoredFeatures=c(
-  stopwords("english"), "t.co", "https", "rt", "amp", "http", "t.c", "can"), ngrams=c(1,2))
+  stopwords("english"), "t.co", "https", "rt", "amp", "http", "t.c", "can"), ngrams=c(1,1))
 # term similarities
-sim <- similarity(twdfm, c("immigration", "eu"), margin="features", method="cosine")
-head(sim$immigration, n=20)
-head(sim$eu, n=20)
+sim <- similarity(twdfm, c("panthers", "fans"), margin="features", method="cosine")
+head(sim$panthers, n=20)
+head(sim$fans, n=20)
 ```
 
 Each of these can be used to cluster documents:
 ```{r}
-presDfm <- trim(presDfm, minCount=5, minDoc=3)
+twdfm <- trim(twdfm, minCount=5, minDoc=3)
 # hierarchical clustering - get distances on normalized dfm
-presDistMat <- dist(as.matrix(weight(presDfm, "relFreq")))
+pantDistMat <- dist(as.matrix(weight(twdfm, "relFreq")))
 # hiarchical clustering the distance object
-presCluster <- hclust(presDistMat)
+pantCluster <- hclust(pantDistMat)
+
+# remove labels to avoid noisy plot
+pantCluster$labels <- vector(mode="character", length=length(pantCluster$labels))
 # plot as a dendrogram
-plot(presCluster)
+plot(pantCluster)
 ```
 
 Or to cluster terms:
 
 ```{r}
 # word dendrogram with tf-idf weighting
-wordDfm <- sort(weight(presDfm, "tfidf"))
-wordDfm <- t(wordDfm)[1:100,]  # because transposed
+wordDfm <- sort(weight(twdfm, "tfidf"))
+wordDfm <- t(wordDfm)[1:50,]  # because transposed
 wordDistMat <- dist(wordDfm)
 wordCluster <- hclust(wordDistMat)
 plot(wordCluster, xlab="", main="tf-idf Frequency weighting")
