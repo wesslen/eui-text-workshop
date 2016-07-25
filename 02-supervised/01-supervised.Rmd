@@ -1,23 +1,22 @@
 ---
 title: "Supervised machine learning"
-author: Pablo Barbera
-date: May 19, 2016
+author: Ryan Wesslen (modified)
+date: July 27, 2016
 output: html_document
 ---
 
 ### Supervised machine learning
 
-We'll be working again with tweets about the 2014 EP elections in the UK. Now we will be using the `polite` variable, which indicates whether each tweet was hand-coded as being __polite__ (a tweet that adheres to politeness standards, i.e. it is written in a well-mannered and
-non-offensive way) or __impolite__ (an ill-mannered, disrespectful tweet that may contain offensive language).
+We'll be working with tweets from the four major US presidential canidates' Twitter accounts. The goal
 
-The source of the dataset is a working paper co-authored with Yannis Theocharis, Zoltan Fazekas, and Sebastian Popa. The link is [here](http://pablobarbera.com/static/Theocharis_Barbera_Fazekas_Popa_APSA2015.pdf). Our goal was to understand to what extent candidates are not engaging voters on Twitter because they're exposed to mostly impolite messages.
-
-Let's start by reading the dataset and creating a dummy variable indicating whether each tweet is impolite.
+Let's create an algorithm to determine what words most distinctively are used by Donald Trump (realDonaldTrump) relative to Ted Cruz (tedcruz).
 
 ```{r}
 library(quanteda)
-tweets <- read.csv("../datasets/EP-elections-tweets.csv", stringsAsFactors=F)
-tweets$impolite <- ifelse(tweets$polite=="polite", 0, 1)
+tweets <- read.csv("../datasets/candidate-tweets.csv", stringsAsFactors=F)
+tweets <- subset(tweets, screen_name %in% c("realDonaldTrump","tedcruz"))
+
+tweets$trump <- ifelse(tweets$screen_name=="realDonaldTrump", 0, 1)
 ```
 
 We'll do some cleaning as well -- substituting handles with @. Why? We want to provent overfitting.
@@ -30,7 +29,7 @@ Create the dfm and trim it so that only tokens that appear in 2 or more tweets a
 twcorpus <- corpus(tweets$text)
 twdfm <- dfm(twcorpus, ignoredFeatures=c(
   stopwords("english"), "t.co", "https", "rt", "amp", "http", "t.c", "can"))
-twdfm <- trim(twdfm, minDoc = 2)
+twdfm <- trim(twdfm, minDoc = 10)
 ```
 
 And split the dataset into training and test set. We'll go with 80% training and 20% set. Note the use of a random seed to make sure our results are replicable.
@@ -46,7 +45,7 @@ Our first step is to train the classifier using cross-validation. There are many
 library(glmnet)
 require(doMC)
 registerDoMC(cores=3)
-ridge <- cv.glmnet(twdfm[training,], tweets$impolite[training], 
+ridge <- cv.glmnet(twdfm[training,], tweets$trump[training], 
 	family="binomial", alpha=0, nfolds=5, parallel=TRUE,
 	type.measure="deviance")
 plot(ridge)
@@ -70,13 +69,13 @@ recall <- function(ypred, y){
 	return(tab[2,2]/(tab[1,2]+tab[2,2]))
 }
 # computing predicted values
-preds <- predict(ridge, twdfm[test,], type="response") > mean(tweets$impolite[test])
+preds <- predict(ridge, twdfm[test,], type="response") > mean(tweets$trump[test])
 # confusion matrix
-table(preds, tweets$impolite[test])
+table(preds, tweets$trump[test])
 # performance metrics
-accuracy(preds, tweets$impolite[test])
-precision(preds, tweets$impolite[test])
-recall(preds, tweets$impolite[test])
+accuracy(preds, tweets$trump[test])
+precision(preds, tweets$trump[test])
+recall(preds, tweets$trump[test])
 ```
 
 Something that is often very useful is to look at the actual estiamted coefficients and see which of these have the highest or lowest values:
