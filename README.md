@@ -45,7 +45,7 @@ You can also subscribe to the repository if you have [a GitHub account](https://
 | Time         | Topic                                                     |
 | ------------ | ---------------------------------------                   |
 | 9:00 -10:00  | [Optional: Introduction to R](01-intro/00-setup.Rmd)              | 
-| 10:00-10:30  | [Introduction to Twitter Analytics](ProjectMosaicWorkshopPresentation.html)              | 
+| 10:00-10:30  | [Introduction to Twitter Analytics](http://htmlpreview.github.io/?https://github.com/wesslen/eui-text-workshop/blob/master/ProjectMosaicWorkshopPresentation.html)              | 
 | 10:30-11:00  | [Descriptive analysis, regular expressions](01-intro/02-descriptive.Rmd)              | 
 | 11:00-11:15  | [Dictionary methods](01-intro/03-dictionaries.Rmd)              | 
 | 11:15-12:00  | [Challenge I](01-intro/04-challenge1.Rmd)              | 
