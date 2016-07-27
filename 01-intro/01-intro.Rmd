@@ -78,7 +78,7 @@ We can split up strings by a separator using `strsplit`. If we choose space as t
 strsplit(text[1], " ")
 ```
 
-Let's dit into the data a little bit more. Let's try to find Carolina Panther Tweets. To do so, let's use the `grep` command to identify tweets with #KeepPounding. The `grep` function returns the index where the word occurs.
+Let's dig into the data a little bit more. Let's try to find Carolina Panther Tweets. To do so, let's use the `grep` command to identify tweets with #KeepPounding. The `grep` function returns the index where the word occurs.
 
 ```{r}
 grep('#KeepPounding', text[1:20])
@@ -121,7 +121,7 @@ We can also use question marks to indicate optional characters.
 
 ```{r}
 nrow(tweets)
-length(grep('cam?', tweets$text, ignore.case=TRUE))
+length(grep('cam?', tweets$body, ignore.case=TRUE))
 ```
 
 This will match Cam, Cameron, etc.
